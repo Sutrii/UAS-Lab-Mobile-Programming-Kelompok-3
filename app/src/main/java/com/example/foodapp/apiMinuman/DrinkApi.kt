@@ -9,10 +9,13 @@ interface DrinkApi {
         const val BASE_URL="https://www.thecocktaildb.com/api/json/v1/1/"
     }
 
+    @GET("random.php")
+    suspend fun randomDrink(): DrinkResponse
+
     @GET("search.php?")
-    fun searchDrink(
+    suspend fun searchDrink(
         @Query("s")s:String
-    ): Call<DrinkResponse>
+    ): DrinkResponse
 
     @GET("lookup.php?")
     fun detailDrink(

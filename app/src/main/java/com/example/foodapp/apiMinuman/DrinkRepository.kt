@@ -5,7 +5,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.liveData
-import com.example.foodapp.api.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -14,12 +13,17 @@ import javax.inject.Singleton
 
 @Singleton
 class DrinkRepository @Inject constructor(private var drinkApi: DrinkApi) {
-    fun searchDrink(query:String):LiveData<DrinkResponse>{
-        var search=MutableLiveData<DrinkResponse>()
-        drinkApi.searchDrink(query).enqueue(object :Callback<DrinkResponse>{
+    fun searchDrink(query:String)=Pager(
+        config = PagingConfig(pageSize = 20, maxSize = 100, enablePlaceholders = false),
+        pagingSourceFactory = { DrinkPagingSource(drinkApi,query) }
+    ).liveData
+
+    fun detailDrink(i:String):LiveData<DrinkResponse>{
+        var detail=MutableLiveData<DrinkResponse>()
+        drinkApi.detailDrink(i).enqueue(object :Callback<DrinkResponse>{
             override fun onResponse(call: Call<DrinkResponse>, response: Response<DrinkResponse>) {
-                if(response.isSuccessful){
-                    search.postValue(response.body())
+                if (response.isSuccessful){
+                    detail.postValue(response.body())
                 }
             }
 
@@ -28,6 +32,6 @@ class DrinkRepository @Inject constructor(private var drinkApi: DrinkApi) {
             }
 
         })
-        return search
+        return detail
     }
 }

@@ -36,18 +36,126 @@ class FragmentHome : Fragment(R.layout.fragment_home) {
         binding = FragmentHomeBinding.bind(view)
 
         binding.buttonMinuman.setOnClickListener(){
-            drinkAdapter = DrinkAdapter(drinkList)
-            binding.rvRandomMeal.layoutManager = LinearLayoutManager(requireContext())
-            binding.rvRandomMeal.adapter = drinkAdapter
+            drinkAdapter = DrinkAdapter(requireContext(), object : DrinkAdapter.OnItemClickListener {
+                override fun onItemClick(drink: Drink) {
+                    // Handle item click here
+                    var drinker = Drink(
+                        drink.dateModified ?: "", // Handle null dateModified
+                        drink.idDrink,
+                        drink.strAlcoholic,
+                        drink.strCategory,
+                        // Handle null strCreativeCommonsConfirmed
+                        drink.strCreativeCommonsConfirmed ?: "", // Handle null strDrinkAlternate
+                        drink.strDrink ?: "", // Handle null strImageSource
+                        drink.strDrinkAlternate ?: "", // Handle null strIngredient1
+                        drink.strDrinkThumb ?: "", // Handle null strIngredient10
+                        drink.strGlass ?: "", // Handle null strIngredient11
+                        drink.strIBA ?: "", // Handle null strIngredient12
+                        drink.strImageAttribution ?: "", // Handle null strIngredient13
+                        drink.strImageSource ?: "",
+                        drink.strIngredient1 ?: "",
+                        drink.strIngredient10 ?: "",
+                        drink.strIngredient11 ?: "",
+                        drink.strIngredient12 ?: "",
+                        drink.strIngredient13 ?: "",
+                        drink.strIngredient14 ?: "",
+                        drink.strIngredient15 ?: "",
+                        drink.strIngredient2 ?: "",
+                        drink.strIngredient3 ?: "",
+                        drink.strIngredient4 ?: "",
+                        drink.strIngredient5 ?: "",
+                        drink.strIngredient6 ?: "",
+                        drink.strIngredient7 ?: "",
+                        drink.strIngredient8 ?: "",
+                        drink.strIngredient9 ?: "",
+                        drink.strInstructions ?: "",
+                        drink.strInstructionsDE ?: "",
+                        drink.strInstructionsES ?: "",
+                        drink.strInstructionsFR ?: "",
+                        drink.strInstructionsIT ?: "",
+                        drink.strMeasure1 ?: "",
+                        drink.strMeasure10 ?: "",
+                        drink.strMeasure11 ?: "",
+                        drink.strMeasure12 ?: "",
+                        drink.strMeasure13 ?: "",
+                        drink.strMeasure14 ?: "",
+                        drink.strMeasure15 ?: "",
+                        drink.strMeasure2 ?: "",
+                        drink.strMeasure3 ?: "",
+                        drink.strMeasure4 ?: "",
+                        drink.strMeasure5 ?: "",
+                        drink.strMeasure6 ?: "",
+                        drink.strMeasure7 ?: "",
+                        drink.strMeasure8 ?: "",
+                        drink.strMeasure9 ?: "",
+                        drink.strTags ?: "",
+                        drink.strVideo ?: "",// Handle null strTags
+                    )
+                    var meal = Meal(
+                        "",
+                        "",
+                        "",
+                        "",
+                        "",
+                        "",
+                        "",
+                        "",
+                        "",
+                        "",
+                        "",
+                        "",
+                        "",
+                        "",
+                        "",
+                        "",
+                        "",
+                        "",
+                        "",
+                        "",
+                        "",
+                        "",
+                        "",
+                        "",
+                        "",
+                        "",
+                        "",
+                        "",
+                        "",
+                        "",
+                        "",
+                        "",
+                        "",
+                        "",
+                        "",
+                        "",
+                        "",
+                        "",
+                        "",
+                        "",
+                        "",
+                        "",
+                        "",
+                        "",
+                        "",
+                        "",
+                        "",
+                        "",
+                        "",
+                        "",
+                        "",
+                        ""
+                    )
 
-            drinkViewModel.searchDrink("margarita").observe(viewLifecycleOwner, object : Observer<DrinkResponse>{
-                override fun onChanged(value: DrinkResponse) {
-                    if(value != null){
-                        drinkList.clear()
-                        drinkAdapter.setList(value.drinks)
-                    }
-                    drinkAdapter.notifyDataSetChanged()
+                    var action = FragmentHomeDirections.actionNavigationHomeToNavigationDetails(meal, drinker)
+                    findNavController().navigate(action)
                 }
+            })
+
+            binding.rvRandomMeal.layoutManager=LinearLayoutManager(requireContext())
+            binding.rvRandomMeal.adapter=drinkAdapter
+
+            drinkViewModel.drink.observe(viewLifecycleOwner, Observer {
+                drinkAdapter.submitData(viewLifecycleOwner.lifecycle, it)
             })
         }
 

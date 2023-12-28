@@ -22,7 +22,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class FragmentDetails:Fragment(R.layout.fragment_details) {
+class FragmentDetails : Fragment(R.layout.fragment_details) {
     lateinit var binding: FragmentDetailsBinding
     private val viewModel by viewModels<MealViewModel>()
 
@@ -34,20 +34,21 @@ class FragmentDetails:Fragment(R.layout.fragment_details) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding= FragmentDetailsBinding.bind(view)
+        binding = FragmentDetailsBinding.bind(view)
 
         binding.imgToolbarBtnBack.setOnClickListener() {
             findNavController().navigate(R.id.action_navigation_details_to_navigation_home)
         }
 
-        viewModel.detailMeal(args.meal!!.idMeal).observe(viewLifecycleOwner){
+        viewModel.detailMeal(args.meal!!.idMeal).observe(viewLifecycleOwner) {
             Glide.with(requireContext())
                 .load(args.meal!!.strMealThumb)
                 .into(binding.imgItem)
-            var ingre=args.meal
-            binding.tvCategory.text=args.meal!!.strCategory
-            binding.tvIngredients.text="${ingre!!.strIngredient1}+${ingre.strIngredient2}+${ingre.strIngredient3}"
-            binding.tvInstructions.text=args.meal!!.strInstructions
+            var ingre = args.meal
+            binding.tvCategory.text = args.meal!!.strCategory
+            binding.tvIngredients.text =
+                "${ingre!!.strIngredient1}+${ingre.strIngredient2}+${ingre.strIngredient3}"
+            binding.tvInstructions.text = args.meal!!.strInstructions
 
             binding.btnYoutube.setOnClickListener {
                 val youtubeUrl = args.meal!!.strYoutube
@@ -63,22 +64,23 @@ class FragmentDetails:Fragment(R.layout.fragment_details) {
                         startActivity(webIntent)
                     }
                 } else {
-                    Toast.makeText(requireContext(), "URL YouTube tidak tersedia", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(
+                        requireContext(),
+                        "URL YouTube tidak tersedia",
+                        Toast.LENGTH_SHORT
+                    ).show()
                 }
             }
         }
-
-        var drink = args.drink
-        if (drink != null){
-//            drinkViewModel.(drink.idDrink).observe(viewLifecycleOwner){
-//                Glide.with(requireContext())
-//                    .load(drink.strDrinkThumb)
-//                    .into(binding.imgItem)
-//                var ingre=drink
-//                binding.tvCategory.text=drink.strCategory
-//                binding.tvIngredients.text="${ingre.strIngredient1}+${ingre.strIngredient2}+${ingre.strIngredient3}"
-//                binding.tvInstructions.text=drink.strInstructions
-//            }
+        drinkViewModel.detailDrink(args.drink!!.idDrink).observe(viewLifecycleOwner) {
+            Glide.with(requireContext())
+                .load(args.drink!!.strDrinkThumb)
+                .into(binding.imgItem)
+            var ingre = args.drink
+            binding.tvCategory.text = args.drink!!.strCategory
+            binding.tvIngredients.text =
+                "${ingre!!.strIngredient1}+${ingre.strIngredient2}+${ingre.strIngredient3}"
+            binding.tvInstructions.text = args.drink!!.strInstructions
         }
     }
 }

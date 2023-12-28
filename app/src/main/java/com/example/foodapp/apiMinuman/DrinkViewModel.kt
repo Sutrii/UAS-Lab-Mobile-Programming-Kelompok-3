@@ -11,8 +11,16 @@ import javax.inject.Inject
 class DrinkViewModel @Inject constructor(private var repository: DrinkRepository
 , private var savedStateHandle: SavedStateHandle):ViewModel() {
 
-    fun searchDrink(query: String):LiveData<DrinkResponse>{
-        return repository.searchDrink(query)
+    companion object{
+        const val DEFAULT_QUERY="margarita"
+        const val CURRENT_QUERY="current"
+    }
+    private var currentQuery=savedStateHandle.getLiveData(CURRENT_QUERY, DEFAULT_QUERY)
+    var drink=currentQuery.switchMap { query->
+        repository.searchDrink(query).cachedIn(viewModelScope)
     }
 
+    fun detailDrink(i:String):LiveData<DrinkResponse>{
+        return repository.detailDrink(i)
+    }
 }
