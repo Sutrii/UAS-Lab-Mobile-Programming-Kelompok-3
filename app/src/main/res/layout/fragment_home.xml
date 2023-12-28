@@ -1,94 +1,94 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/root_home"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".home.HomeFragment">
+    android:layout_height="match_parent">
 
-    <!-- TODO: Update blank fragment layout -->
-    <RelativeLayout
-        android:id="@+id/home_layout"
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:fillViewport="true">
 
-        <TextView
-            android:id="@+id/sapa_user"
-            android:layout_marginLeft="20dp"
-            android:layout_marginTop="20dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Hai, Lala!"
-            android:textStyle="bold"
-            android:textSize="30sp"/>
-
-        <TextView
-            android:id="@+id/tanya_user"
-            android:layout_marginLeft="20dp"
-            android:layout_below="@id/sapa_user"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Mau masak apa hari ini?"
-            android:textStyle="bold"
-            android:textSize="30sp"/>
-
-        <TextView
-            android:id="@+id/judul_kategori"
-            android:layout_below="@id/tanya_user"
-            android:layout_marginLeft="20dp"
-            android:layout_marginTop="25dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Kategori Resep"
-            android:textSize="25sp"/>
-
-        <Button
-            android:id="@+id/button_semua"
-            android:layout_below="@id/judul_kategori"
-            android:layout_marginLeft="20dp"
-            android:layout_marginTop="15dp"
-            android:layout_width="110dp"
-            android:layout_height="wrap_content"
-            android:text="Semua"
-            android:textSize="13sp"
-            style="@style/ActiveButton"
-            android:textColor="@color/white"/>
-
-        <Button
-            android:id="@+id/button_makanan"
-            android:layout_below="@id/judul_kategori"
-            android:layout_toRightOf="@id/button_semua"
-            android:layout_marginTop="15dp"
-            android:layout_marginLeft="12dp"
-            android:layout_width="110dp"
-            android:layout_height="wrap_content"
-            android:text="Makanan"
-            android:textSize="13sp"
-            style="@style/InactiveButton"
-            android:textColor="@color/red"/>
-
-        <Button
-            android:id="@+id/button_minuman"
-            android:layout_below="@id/judul_kategori"
-            android:layout_toRightOf="@id/button_makanan"
-            android:layout_marginTop="15dp"
-            android:layout_marginLeft="12dp"
-            android:layout_width="110dp"
-            android:layout_height="wrap_content"
-            android:text="Minuman"
-            android:textSize="13sp"
-            style="@style/InactiveButton"
-            android:textColor="@color/red"/>
-
-        <FrameLayout
-            android:id="@+id/ContainerCategory"
+        <RelativeLayout
+            android:id="@+id/relativeLayout"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/button_makanan"
-            android:layout_marginTop="20dp"
-            android:layout_marginHorizontal="20dp"
-            android:layout_centerInParent="true">
+            android:layout_height="match_parent"
+            android:layout_margin="10dp"
+            android:orientation="vertical">
 
-        </FrameLayout>
+            <TextView
+                android:id="@+id/welcome"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:fontFamily="@font/myfont"
+                android:text="Hai, Lala \nMau masak apa hari ini?"
+                android:textColor="@color/black"
+                android:textSize="20sp"
+                android:textStyle="bold" />
 
-    </RelativeLayout>
-</ScrollView>
+            <TextView
+                android:id="@+id/kategori"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/welcome"
+                android:layout_marginTop="10dp"
+                android:fontFamily="@font/myfont"
+                android:text="Kategori Resep"
+                android:textColor="@color/black"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+            <Button
+                android:id="@+id/button_semua"
+                style="@style/ActiveButton"
+                android:layout_width="110dp"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/kategori"
+
+                android:layout_marginTop="15dp"
+                android:text="Semua"
+                android:textColor="@color/red"
+                android:textSize="13sp" />
+
+            <Button
+                android:id="@+id/button_makanan"
+                style="@style/InactiveButton"
+                android:layout_width="110dp"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/kategori"
+                android:layout_marginLeft="12dp"
+                android:layout_marginTop="15dp"
+                android:layout_toRightOf="@id/button_semua"
+                android:text="Makanan"
+                android:textColor="@color/red"
+                android:textSize="13sp" />
+
+            <Button
+                android:id="@+id/button_minuman"
+                style="@style/InactiveButton"
+                android:layout_width="110dp"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/kategori"
+                android:layout_marginLeft="12dp"
+                android:layout_marginTop="15dp"
+                android:layout_toRightOf="@id/button_makanan"
+                android:text="Minuman"
+                android:textColor="@color/red"
+                android:textSize="13sp" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_random_meal"
+                android:layout_width="wrap_content"
+                android:layout_height="390dp"
+                android:layout_marginTop="20dp"
+                android:layout_centerHorizontal="true"
+                tools:listitem="@layout/item_meal"
+                android:layout_below="@id/button_makanan"
+                />
+
+        </RelativeLayout>
+    </androidx.core.widget.NestedScrollView>
+</androidx.constraintlayout.widget.ConstraintLayout>
