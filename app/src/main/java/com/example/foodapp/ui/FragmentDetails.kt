@@ -15,6 +15,7 @@ import com.bumptech.glide.Glide
 import com.example.foodapp.R
 import com.example.foodapp.apiMinuman.DrinkViewModel
 import com.example.foodapp.databinding.FragmentDetailsBinding
+import com.example.foodapp.foodBookmark.BookmarkViewModel
 import com.example.foodapp.meal.MealViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
@@ -25,11 +26,8 @@ import kotlinx.coroutines.launch
 class FragmentDetails : Fragment(R.layout.fragment_details) {
     lateinit var binding: FragmentDetailsBinding
     private val viewModel by viewModels<MealViewModel>()
-
-
+    private val bookViewModel by viewModels<BookmarkViewModel>()
     private val drinkViewModel by viewModels<DrinkViewModel>()
-
-
     private val args by navArgs<FragmentDetailsArgs>()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -81,6 +79,31 @@ class FragmentDetails : Fragment(R.layout.fragment_details) {
             binding.tvIngredients.text =
                 "${ingre!!.strIngredient1}+${ingre.strIngredient2}+${ingre.strIngredient3}"
             binding.tvInstructions.text = args.drink!!.strInstructions
+        }
+
+        var isChecked=false
+        CoroutineScope(Dispatchers.IO).launch {
+            var count=bookViewModel.getBookmarkId(args.meal!!.idMeal)
+            with(Dispatchers.Main){
+                if (count==null){
+                    isChecked=false
+                    binding.toggleFavorite.isChecked=false
+                }
+                else{
+                    isChecked=true
+                    binding.toggleFavorite.isChecked=true
+                }
+            }
+        }
+        binding.toggleFavorite.setOnClickListener(){
+            if (isChecked==false){
+                binding.toggleFavorite.isChecked=true
+                bookViewModel.addToBookmark(args.meal!!)
+            }
+            else{
+                binding.toggleFavorite.isChecked=false
+                bookViewModel.deleteBookmark(args.meal!!.idMeal)
+            }
         }
     }
 }

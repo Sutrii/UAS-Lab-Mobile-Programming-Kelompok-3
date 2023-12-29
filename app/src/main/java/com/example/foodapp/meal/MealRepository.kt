@@ -33,7 +33,7 @@ class MealRepository @Inject constructor(private var mealApi: MealApi){
             }
 
             override fun onFailure(call: Call<MealResponse>, t: Throwable) {
-                TODO("Not yet implemented")
+
             }
 
         })

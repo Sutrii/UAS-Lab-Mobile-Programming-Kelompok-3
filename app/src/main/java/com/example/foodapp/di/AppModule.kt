@@ -1,9 +1,13 @@
 package com.example.foodapp.di
+import android.content.Context
+import androidx.room.Room
 import com.example.foodapp.api.MealApi
 import com.example.foodapp.apiMinuman.DrinkApi
+import com.example.foodapp.foodBookmark.BookmarkDB
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -45,4 +49,13 @@ object AppModule {
     @Retention(AnnotationRetention.BINARY)
     @Qualifier
     annotation class DrinkRetrofit
+
+    @Singleton
+    @Provides
+    fun providesBookmark(@ApplicationContext app: Context):BookmarkDB= Room.databaseBuilder(
+        app,BookmarkDB::class.java,"favMealsss").build()
+
+    @Singleton
+    @Provides
+    fun providesBookmarkDao(db: BookmarkDB)=db.bookmarkDao()
 }

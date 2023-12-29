@@ -28,7 +28,7 @@ class DrinkRepository @Inject constructor(private var drinkApi: DrinkApi) {
             }
 
             override fun onFailure(call: Call<DrinkResponse>, t: Throwable) {
-                TODO("Not yet implemented")
+
             }
 
         })
